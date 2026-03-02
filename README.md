@@ -32,6 +32,12 @@ cd ai-hat-test
 bash ./run-ai-hat-test.sh
 ```
 
+To run a Hailo model smoke test with a HEF:
+
+```bash
+bash ./ai-hat-test/run-model-smoke.sh /path/to/model.hef
+```
+
 ## test-project quick commands
 
 From repo root (`raz`):
