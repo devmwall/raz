@@ -5,6 +5,7 @@ This repository is a top-level workspace for multiple projects.
 ## Projects
 
 - `test-project/` - Python Raspberry Pi starter template
+- `ai-hat-test/` - Raspberry Pi AI M.2 HAT smoke test project
 
 ## How to use this workspace
 
@@ -15,6 +16,13 @@ Example:
 
 ```bash
 cd test-project
+```
+
+For AI HAT testing:
+
+```bash
+cd ai-hat-test
+bash ./run-ai-hat-test.sh
 ```
 
 ## test-project quick commands
