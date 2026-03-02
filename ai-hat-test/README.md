@@ -23,6 +23,12 @@ To prove a model can execute on-device (with a HEF file):
 bash ./run-model-smoke.sh /path/to/model.hef
 ```
 
+To test camera bring-up (turn camera on and capture one frame):
+
+```bash
+bash ./run-camera-test.sh --output ./camera-test.jpg
+```
+
 Default model path in script points to:
 
 `ai-hat-test/models/repghost_1_0x.hef`
