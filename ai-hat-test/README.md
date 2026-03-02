@@ -29,6 +29,12 @@ To test camera bring-up (turn camera on and capture one frame):
 bash ./run-camera-test.sh --output ./camera-test.jpg
 ```
 
+If Picamera2 is unstable on your setup, enable CLI fallback:
+
+```bash
+bash ./run-camera-test.sh --output ./camera-test.jpg --fallback-rpicam-still
+```
+
 Default model path in script points to:
 
 `ai-hat-test/models/repghost_1_0x.hef`
