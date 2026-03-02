@@ -12,6 +12,13 @@ This repository is a top-level workspace for multiple projects.
 1. Enter the project you want to work on.
 2. Follow that project's README for setup and run commands.
 
+For Raspberry Pi dependency bootstrap from repo root:
+
+```bash
+chmod +x setup.sh
+bash ./setup.sh
+```
+
 Example:
 
 ```bash

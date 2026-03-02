@@ -1,12 +1,13 @@
 # ai-hat-test
 
-Quick hardware/software smoke test project for the Raspberry Pi AI M.2 HAT extension.
+Quick hardware/software smoke test project for the Raspberry Pi Hailo AI Kit (AI M.2 HAT).
 
 ## What this checks
 
 - Python runtime and platform details
-- Optional AI stack imports (`hailo`, `picamera2`, `cv2`, `numpy`)
-- Optional `lspci` probe for Hailo-like PCIe devices
+- Optional AI stack imports (`hailo_platform`, `hailo`, `picamera2`, `cv2`, `numpy`)
+- `hailortcli --version` and `hailortcli fw-control identify`
+- `lspci` probe for Hailo-like PCIe devices
 
 ## Run
 
@@ -32,3 +33,9 @@ python3 -m pip install numpy opencv-python
 ```
 
 `hailo` and `picamera2` are often installed from Raspberry Pi/Hailo packages rather than PyPI depending on your image.
+
+## Hailo AI Kit notes
+
+- A healthy setup usually shows both `hailortcli` checks as OK and at least one Hailo Python import as OK.
+- If `hailortcli` is missing, install the Hailo runtime/tooling from the official AI Kit setup flow.
+- If `fw-control identify` fails, reseat the M.2 card and recheck power/PCIe enablement.

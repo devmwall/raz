@@ -15,7 +15,14 @@ class ModuleCheck:
     detail: str
 
 
-MODULES_TO_CHECK = ("hailo", "picamera2", "cv2", "numpy")
+@dataclass(frozen=True)
+class CommandCheck:
+    name: str
+    ok: bool
+    detail: str
+
+
+MODULES_TO_CHECK = ("hailo_platform", "hailo", "picamera2", "cv2", "numpy")
 
 
 def parse_args() -> argparse.Namespace:
@@ -55,6 +62,25 @@ def detect_pcie_ai_device() -> str:
     return "no obvious accelerator found in lspci output"
 
 
+def check_command(name: str, args: list[str]) -> CommandCheck:
+    try:
+        result = subprocess.run(
+            [name, *args],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError:
+        return CommandCheck(name=name, ok=False, detail="missing from PATH")
+
+    if result.returncode == 0:
+        first_line = (result.stdout.strip() or result.stderr.strip() or "ok").splitlines()[0]
+        return CommandCheck(name=name, ok=True, detail=first_line)
+
+    first_error = (result.stderr.strip() or result.stdout.strip() or "failed").splitlines()[0]
+    return CommandCheck(name=name, ok=False, detail=f"exit {result.returncode}: {first_error}")
+
+
 def main() -> int:
     args = parse_args()
 
@@ -72,17 +98,32 @@ def main() -> int:
     print("\nPCIe probe:")
     print(f"- {pcie_result}")
 
+    command_checks = [
+        check_command("hailortcli", ["--version"]),
+        check_command("hailortcli", ["fw-control", "identify"]),
+    ]
+    print("\nHailo runtime checks:")
+    for check in command_checks:
+        status = "OK" if check.ok else "MISS"
+        print(f"- {check.name:<10} {status} - {check.detail}")
+
     if args.verbose:
         print("\nHints:")
-        print("- Install missing Python packages in your project venv")
-        print("- Confirm HAT drivers/runtime are installed per vendor docs")
+        print("- Hailo AI Kit usually needs system packages plus Python bindings")
+        print("- If hailortcli is missing, install HailoRT from vendor instructions")
+        print("- If fw-control identify fails, check PCIe seating and power")
 
-    missing_count = sum(0 if check.ok else 1 for check in checks)
-    if missing_count == len(checks):
-        print("\nResult: no optional AI modules detected yet.")
+    modules_ok = any(check.ok for check in checks)
+    commands_ok = all(check.ok for check in command_checks)
+    if not modules_ok and not commands_ok:
+        print("\nResult: Hailo stack not detected yet.")
         return 1
 
-    print("\nResult: partial or full AI stack detected.")
+    if modules_ok and commands_ok:
+        print("\nResult: Hailo AI Kit looks healthy.")
+        return 0
+
+    print("\nResult: partial Hailo setup detected; some pieces still missing.")
     return 0
 
 
