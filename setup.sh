@@ -35,14 +35,17 @@ $SUDO apt-get install -y \
   python3-opencv \
   python3-picamera2
 
-if apt-cache show hailort >/dev/null 2>&1; then
+if apt-cache show hailo-all >/dev/null 2>&1; then
+  echo "Installing Hailo AI Kit bundle (hailo-all)..."
+  $SUDO apt-get install -y hailo-all
+elif apt-cache show hailort >/dev/null 2>&1; then
   echo "Installing Hailo runtime package (hailort)..."
   $SUDO apt-get install -y hailort
 else
   cat <<'EOF'
-hailort package is not available in current apt sources.
+Hailo packages are not available in current apt sources.
 Install the Hailo AI Kit repository/packages from official Hailo docs,
-then re-run this script to install hailort automatically.
+then re-run this script to install them automatically.
 EOF
 fi
 

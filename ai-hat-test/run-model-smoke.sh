@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-DEFAULT_MODEL_PATH="$SCRIPT_DIR/models/cas_vit_s.hef"
+DEFAULT_MODEL_PATH="$SCRIPT_DIR/models/repghost_1_0x.hef"
 
 MODEL_PATH="${1:-$DEFAULT_MODEL_PATH}"
 

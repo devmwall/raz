@@ -25,7 +25,7 @@ bash ./run-model-smoke.sh /path/to/model.hef
 
 Default model path in script points to:
 
-`ai-hat-test/models/cas_vit_s.hef`
+`ai-hat-test/models/repghost_1_0x.hef`
 
 You can still pass another model path explicitly if needed.
 
